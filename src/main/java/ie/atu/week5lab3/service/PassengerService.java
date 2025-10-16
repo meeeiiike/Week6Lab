@@ -36,4 +36,15 @@ public class PassengerService {
         return p;
     }
 
+    // Updates Passenger by creating new Passengegr Objects t o
+    public Passenger update(Passenger p){
+        Optional<Passenger> passengerFound = findByID(p.getPassengerID());
+        if(passengerFound.isEmpty()){
+            throw new IllegalArgumentException("Passenger doesn't exist");
+        }
+        Passenger updated = passengerFound.get();
+        updated.setName(p.getName());
+        updated.setEmail(p.getEmail());
+        return updated;
+    }
 }

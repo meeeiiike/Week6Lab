@@ -20,7 +20,7 @@ public class PassengerController {
         this.service = service;
     }
 
-    // Get Request which forms RepsonseEntity of List of Passenger, to call service instantiation so we can use the findAll method
+    // Get Request which forms ResponseEntity of List of Passenger, to call service instantiation so we can use the findAll method
     @GetMapping
     public ResponseEntity<List<Passenger>> getAllPassengers() {
         return ResponseEntity.ok(service.findAll());
@@ -44,5 +44,15 @@ public class PassengerController {
                 // Builds the URI, where we can pass the ID into the url "/{id}"
                 .created(URI.create("/api/passengers" + created.getPassengerID())) // creates HTTP status code 201
                 .body(created); // used object created to fill the response body
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Passenger> updatePassenger(@Valid @RequestBody Passenger p){
+        Optional<Passenger> passengerFound = service.findByID(p.getPassengerID());
+        if (passengerFound.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+        Passenger updated = service.update(p);
+        return ResponseEntity.ok(updated);
     }
 }
