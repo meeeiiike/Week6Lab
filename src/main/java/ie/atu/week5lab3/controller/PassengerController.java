@@ -47,12 +47,22 @@ public class PassengerController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Passenger> updatePassenger(@Valid @RequestBody Passenger p){
+    public ResponseEntity<Passenger> updatePassenger(@Valid @RequestBody Passenger p, @PathVariable String id){
         Optional<Passenger> passengerFound = service.findByID(p.getPassengerID());
         if (passengerFound.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
         Passenger updated = service.update(p);
         return ResponseEntity.ok(updated);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Passenger> deletePassenger(@Valid @PathVariable String id){
+        Optional<Passenger> passengerFound = service.findByID(id);
+        if (passengerFound.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+        Passenger deleted = service.delete(passengerFound.get());
+        return ResponseEntity.ok(deleted);
     }
 }
