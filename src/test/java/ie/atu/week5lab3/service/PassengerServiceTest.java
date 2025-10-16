@@ -46,4 +46,37 @@ public class PassengerServiceTest {
                     .email("Mark@gmail.com")
                     .build()));
     }
+
+    @Test
+    void createThenUpdatePassenger(){
+        Passenger oldPassenger = Passenger.builder()
+                .passengerID("P001")
+                .name("Meike")
+                .email("m@gmail.com")
+                .build();
+        service.create(oldPassenger);
+
+        Passenger newPassenger = Passenger.builder()
+                .passengerID("P001")
+                .name("John")
+                .email("meike@gmail.com")
+                .build();
+        Passenger updatedPassenger = service.update(newPassenger);
+        assertEquals("John", updatedPassenger.getName());
+        assertEquals("meike@gmail.com", updatedPassenger.getEmail());
+    }
+
+    @Test
+    void deleteThenFindByID(){
+        Passenger oldPassenger = Passenger.builder()
+                .passengerID("P001")
+                .name("Mike")
+                .email("m@gmail.com")
+                .build();
+        service.create(oldPassenger);
+
+        service.delete(oldPassenger);
+        Optional<Passenger> passengerFound = service.findByID("P001");
+        assertTrue(passengerFound.isEmpty());
+    }
 }
