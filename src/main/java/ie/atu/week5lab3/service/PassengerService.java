@@ -47,4 +47,12 @@ public class PassengerService {
         updated.setEmail(p.getEmail());
         return updated;
     }
+
+    public Passenger delete(Passenger p){
+        if(findByID(p.getPassengerID()).isPresent()){
+            store.remove(p);
+            return p;
+        }
+        throw new IllegalArgumentException("Passenger doesn't exist");
+    }
 }
