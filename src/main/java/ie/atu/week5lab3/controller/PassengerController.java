@@ -48,7 +48,8 @@ public class PassengerController {
 
     @PutMapping("/{id}")
     public ResponseEntity<Passenger> updatePassenger(@Valid @RequestBody Passenger p, @PathVariable String id){
-        Optional<Passenger> passengerFound = service.findByID(p.getPassengerID());
+        p.setPassengerID(id);
+        Optional<Passenger> passengerFound = service.findByID(id);
         if (passengerFound.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
