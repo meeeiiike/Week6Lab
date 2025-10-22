@@ -1,6 +1,7 @@
 package ie.atu.week5lab3.service;
 
 import ie.atu.week5lab3.controller.errorHandling.DuplicateExceptionHandling;
+import ie.atu.week5lab3.controller.errorHandling.NotFoundException;
 import ie.atu.week5lab3.model.Passenger;
 import org.springframework.stereotype.Service;
 
@@ -41,7 +42,7 @@ public class PassengerService {
     public Passenger update(Passenger p){
         Optional<Passenger> passengerFound = findByID(p.getPassengerID());
         if(passengerFound.isEmpty()){
-            throw new IllegalArgumentException("Passenger doesn't exist");
+            throw new NotFoundException("Passenger " + p.getPassengerID() + " doesn't exist");
         }
         Passenger updated = passengerFound.get();
         updated.setName(p.getName());
@@ -54,6 +55,7 @@ public class PassengerService {
             store.remove(p);
             return p;
         }
-        throw new IllegalArgumentException("Passenger doesn't exist");
+        throw new NotFoundException("Passenger " + p.getPassengerID() + " doesn't exist");
     }
+
 }

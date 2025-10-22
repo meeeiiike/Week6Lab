@@ -24,11 +24,19 @@ public class GlobalExceptionHandling {
     }
 
     @ExceptionHandler(DuplicateExceptionHandling.class)
-    public ResponseEntity<ExceptionDetails> showDupeError(DuplicateExceptionHandling deh){
+    public ResponseEntity<ExceptionDetails> showDuplicateError(DuplicateExceptionHandling deh){
         ExceptionDetails exceptionDetails = new ExceptionDetails();
         exceptionDetails.setFieldName("Passenger ID");
         exceptionDetails.setFieldValue(deh.getMessage());
         return ResponseEntity.status(HttpStatus.CONFLICT).body(exceptionDetails);
+    }
+
+    @ExceptionHandler(NotFoundException.class)
+    public ResponseEntity<ExceptionDetails> notFoundException(NotFoundException nfe){
+        ExceptionDetails exceptionDetails = new ExceptionDetails();
+        exceptionDetails.setFieldName("Passenger ID");
+        exceptionDetails.setFieldValue(nfe.getMessage());
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(exceptionDetails);
     }
 
 }
