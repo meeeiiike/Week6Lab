@@ -1,5 +1,6 @@
 package ie.atu.week5lab3.controller;
 
+import ie.atu.week5lab3.controller.errorHandling.NotFoundException;
 import ie.atu.week5lab3.model.Passenger;
 import ie.atu.week5lab3.service.PassengerService;
 import jakarta.validation.Valid;
@@ -33,7 +34,7 @@ public class PassengerController {
             return ResponseEntity.ok(passengerFound.get());
         }
         else{
-            return ResponseEntity.notFound().build();
+            throw new NotFoundException("Passenger " + id + " doesn't exist");
         }
     }
 
@@ -51,7 +52,7 @@ public class PassengerController {
         p.setPassengerID(id);
         Optional<Passenger> passengerFound = service.findByID(id);
         if (passengerFound.isEmpty()) {
-            return ResponseEntity.notFound().build();
+            throw new NotFoundException("Passenger " + id + " doesn't exist");
         }
         Passenger updated = service.update(p);
         return ResponseEntity.ok(updated);
@@ -61,7 +62,7 @@ public class PassengerController {
     public ResponseEntity<Passenger> deletePassenger(@Valid @PathVariable String id){
         Optional<Passenger> passengerFound = service.findByID(id);
         if (passengerFound.isEmpty()) {
-            return ResponseEntity.notFound().build();
+            throw new NotFoundException("Passenger " + id + " doesn't exist");
         }
         Passenger deleted = service.delete(passengerFound.get());
         return ResponseEntity.ok(deleted);
