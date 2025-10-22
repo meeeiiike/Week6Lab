@@ -11,10 +11,10 @@ import lombok.NoArgsConstructor;
 
 @NoArgsConstructor@AllArgsConstructor@Data@Builder
 public class Passenger {
-    @NotBlank @Size(max=40)
+    @NotBlank(message = "ID must NOT be blank bruh")  @Size(max=40, message = "ID Must be less than 60 Characters")
     private String passengerID;
-    @NotBlank @Size(max=60)
+    @NotBlank(message = "Name must NOT be blank bruh")  @Size(max=60, message = "Name Must be less than 60 Characters")
     private String name;
-    @NotBlank @Email
+    @NotBlank(message = "Email must NOT be blank bruh") @Email(message = "Email must be of normal format")
     private String email;
 }
