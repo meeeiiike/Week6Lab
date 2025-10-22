@@ -15,13 +15,20 @@ public class GlobalExceptionHandling {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<List<ExceptionDetails>> showErrorDetails(MethodArgumentNotValidException mae){
-
         List<ExceptionDetails> errorList = new ArrayList<>();
 
         for(FieldError fieldError : mae.getBindingResult().getFieldErrors()){
             errorList.add(new ExceptionDetails(fieldError.getField(), fieldError.getDefaultMessage()));
         }
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorList);
+    }
+
+    @ExceptionHandler(DuplicateExceptionHandling.class)
+    public ResponseEntity<ExceptionDetails> showDupeError(DuplicateExceptionHandling deh){
+        ExceptionDetails exceptionDetails = new ExceptionDetails();
+        exceptionDetails.setFieldName("Passenger ID");
+        exceptionDetails.setFieldValue(deh.getMessage());
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(exceptionDetails);
     }
 
 }
